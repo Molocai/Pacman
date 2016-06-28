@@ -106,16 +106,26 @@ public class GameManager : MonoBehaviour {
         CalmGhosts();
 
 		pacman.transform.position = new Vector3(15f, 11f, 0f);
-		blinky.transform.position = new Vector3(15f, 20f, 0f);
-		pinky.transform.position = new Vector3(14.5f, 17f, 0f);
-		inky.transform.position = new Vector3(16.5f, 17f, 0f);
-		clyde.transform.position = new Vector3(12.5f, 17f, 0f);
 
-		pacman.GetComponent<PlayerController>().ResetDestination();
-		blinky.GetComponent<GhostMove>().InitializeGhost();
-		pinky.GetComponent<GhostMove>().InitializeGhost();
-		inky.GetComponent<GhostMove>().InitializeGhost();
-		clyde.GetComponent<GhostMove>().InitializeGhost();
+        if (blinky != null)
+		    blinky.transform.position = new Vector3(15f, 20f, 0f);
+        if (pinky != null)
+		    pinky.transform.position = new Vector3(14.5f, 17f, 0f);
+        if (inky != null)
+            inky.transform.position = new Vector3(16.5f, 17f, 0f);
+        if (clyde != null)
+            clyde.transform.position = new Vector3(12.5f, 17f, 0f);
+
+        pacman.GetComponent<PacmanAI>().ResetVariables();
+
+        if (blinky != null)
+		    blinky.GetComponent<GhostMove>().InitializeGhost();
+        if (pinky != null)
+            pinky.GetComponent<GhostMove>().InitializeGhost();
+        if (inky != null)
+            inky.GetComponent<GhostMove>().InitializeGhost();
+        if (clyde != null)
+            clyde.GetComponent<GhostMove>().InitializeGhost();
 
         gameState = GameState.Init;  
         gui.H_ShowReadyScreen();
@@ -143,10 +153,16 @@ public class GameManager : MonoBehaviour {
 	public void CalmGhosts()
 	{
 		scared = false;
-		blinky.GetComponent<GhostMove>().Calm();
-		pinky.GetComponent<GhostMove>().Calm();
-		inky.GetComponent<GhostMove>().Calm();
-		clyde.GetComponent<GhostMove>().Calm();
+
+        if (blinky != null)
+		    blinky.GetComponent<GhostMove>().Calm();
+        if (pinky != null)
+            pinky.GetComponent<GhostMove>().Calm();
+        if (inky != null)
+            inky.GetComponent<GhostMove>().Calm();
+        if (clyde != null)
+            clyde.GetComponent<GhostMove>().Calm();
+
 	    PlayerController.killstreak = 0;
     }
 
@@ -157,7 +173,7 @@ public class GameManager : MonoBehaviour {
         pinky = GameObject.Find("pinky");
         inky = GameObject.Find("inky");
         blinky = GameObject.Find("blinky");
-        pacman = GameObject.Find("pacman");
+        pacman = GameObject.Find("AIPacman");
 
         if (clyde == null || pinky == null || inky == null || blinky == null) Debug.Log("One of ghosts are NULL");
         if (pacman == null) Debug.Log("Pacman is NULL");

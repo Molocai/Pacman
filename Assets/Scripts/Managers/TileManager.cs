@@ -12,13 +12,14 @@ public class TileManager : MonoBehaviour {
 		public bool occupied {get; set;}
 		public int adjacentCount {get; set;}
 		public bool isIntersection {get; set;}
+        public bool hasPacdot { get; set; }
 		
 		public Tile left,right,up,down;
 		
 		public Tile(int x_in, int y_in)
 		{
 			x = x_in; y = y_in;
-			occupied = false;
+			occupied = hasPacdot = false;
 			left = right = up = down = null;
 		}
 
@@ -26,11 +27,23 @@ public class TileManager : MonoBehaviour {
 	};
 	
 	public List<Tile> tiles = new List<Tile>();
+    public GameObject PacdotPrefab;
 	
 	// Use this for initialization
 	void Start () 
 	{
         ReadTiles();
+
+        // Instantiation des pacdots
+        foreach(Tile t in tiles)
+        {
+            if (!t.occupied)
+            {
+                GameObject dot = GameObject.Instantiate(PacdotPrefab, new Vector3(t.x, t.y), Quaternion.identity) as GameObject;
+                t.hasPacdot = true;
+                dot.GetComponent<Pacdot>().tile = t;
+            }
+        }
 
 	}
 
@@ -38,7 +51,6 @@ public class TileManager : MonoBehaviour {
 	void Update () 
 	{
 		//DrawNeighbors();
-
 	}
 	
 	//-----------------------------------------------------------------------
@@ -158,6 +170,10 @@ public class TileManager : MonoBehaviour {
 		
 	}
 
+    public Tile GetTile(int x, int y)
+    {
+        return tiles[Index(x, y)];
+    }
 
 	//----------------------------------------------------------------------
 	// returns the index in the tiles list of a given tile's coordinates

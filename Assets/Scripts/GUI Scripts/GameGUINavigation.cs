@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameGUINavigation : MonoBehaviour {
 
@@ -140,7 +141,7 @@ public class GameGUINavigation : MonoBehaviour {
 
 	public void Menu()
 	{
-		Application.LoadLevel("menu");
+        SceneManager.LoadScene("menu");
 		Time.timeScale = 1.0f;
 
         // take care of game manager
@@ -167,7 +168,7 @@ public class GameGUINavigation : MonoBehaviour {
             GameManager.score = 0;
             GameManager.Level = 0;
 
-            Application.LoadLevel("scores");
+            SceneManager.LoadScene("scores");
             Time.timeScale = 1.0f;
         }
         else
@@ -215,7 +216,7 @@ public class GameGUINavigation : MonoBehaviour {
     public void LoadLevel()
     {
         GameManager.Level++;
-        Application.LoadLevel("game");
+        SceneManager.LoadScene("game");
     }
 
     public void ToggleErrorMsg(string errorMsg)

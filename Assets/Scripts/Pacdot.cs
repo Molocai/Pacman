@@ -3,12 +3,15 @@ using System.Collections;
 
 public class Pacdot : MonoBehaviour {
 
+    public TileManager.Tile tile;
+
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if(other.name == "pacman")
+		if(other.tag == "pacman")
 		{
 			GameManager.score += 10;
 		    GameObject[] pacdots = GameObject.FindGameObjectsWithTag("pacdot");
+            tile.hasPacdot = false;
             Destroy(gameObject);
 
 		    if (pacdots.Length == 1)

@@ -52,15 +52,21 @@ public class GhostMove : MonoBehaviour {
 	public GameGUINavigation GUINav;
     public PlayerController pacman;
     private GameManager _gm;
+    private TileManager Manager;
+    private TileManager.Tile CurrentTile;
+    private List<TileManager.Tile> neighbors;
 
-	//-----------------------------------------------------------------------------------------
-	// variables end, functions begin
-	void Start()
+    //-----------------------------------------------------------------------------------------
+    // variables end, functions begin
+    void Start()
 	{
 	    _gm = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        _toggleInterval = _gm.scareLength * 0.33f * 0.20f;  
-		InitializeGhost();
-	}
+        Manager = GameObject.Find("Game Manager").GetComponent<TileManager>();
+        _toggleInterval = _gm.scareLength * 0.33f * 0.20f;
+        InitializeGhost();
+
+        neighbors = new List<TileManager.Tile>();
+    }
 
     public float DISTANCE;
 
@@ -94,7 +100,11 @@ public class GhostMove : MonoBehaviour {
 				break;
 			}
 		}
-	}
+
+        // Mise à jours du tile actuel
+        Vector3 CurrentPos = new Vector3(transform.position.x + 0.499f, transform.position.y + 0.499f);
+        CurrentTile = Manager.tiles[Manager.Index((int)CurrentPos.x, (int)CurrentPos.y)];
+    }
 
 	//-----------------------------------------------------------------------------------
 	// Start() functions
@@ -293,7 +303,7 @@ public class GhostMove : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if(other.name == "pacman")
+		if(other.tag == "pacman")
 		{
 			//Destroy(other.gameObject);
 		    if (state == State.Run)
